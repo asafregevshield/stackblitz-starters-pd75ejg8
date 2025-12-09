@@ -1,4 +1,5 @@
-import { Component, VERSION } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, VERSION } from '@angular/core';
+import { TimezoneService } from './timezone';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,14 @@ import { Component, VERSION } from '@angular/core';
 })
 export class AppComponent {
   dateVal = new Date();
+  
+
+  timezoneService = inject(TimezoneService);
+  cdr = inject(ChangeDetectorRef);
+
+  constructor() {
+    this.timezoneService.trigger.subscribe(() => {
+      this.cdr.detectChanges();
+    });
+  }
 }
